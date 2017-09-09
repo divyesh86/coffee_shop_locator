@@ -20,8 +20,8 @@ describe('create record', function() {
 describe('read record', function() {
     it('from an id', async function() {
         let result = await readService.readData(1);
-        let expected = '{"key":"1","value":{"id":"1","ttl":0,"name":"Updated New Coffee Shop","address":"986 Market St","latitude":"37.782394430549445","longitude":"-122.40997343121123"}}';
-        assert.equal(expected, JSON.stringify(result[0]));
+        let expected = '{"id":"1","ttl":0,"name":"New Coffee","address":"986 Market St","latitude":"37.782394430549445","longitude":"-122.40997343121123"}'
+        assert.equal(expected, JSON.stringify(result));
     });
 });
 
@@ -30,7 +30,7 @@ describe('update record', function() {
     it('from an object', async function() {
         let object = {"name": "Updated New Coffee Shop", "address":"986 Market St","latitude":"37.782394430549445", "longitude": "-122.40997343121123"};
         let result = await updateService.updateItem(1, object);
-        let expected = '{"key":"1","value":{"id":"1","ttl":0,"name":"Updated New Coffee Shop","address":"986 Market St","latitude":"37.782394430549445","longitude":"-122.40997343121123"}}';
+        let expected = '{"key":"1","value":{"id":"1","name":"Updated New Coffee Shop","address":"986 Market St","latitude":"37.782394430549445","longitude":"-122.40997343121123"}}';
         assert.equal(expected, JSON.stringify(result[0]));
     });
 });
@@ -39,8 +39,8 @@ describe('update record', function() {
 describe('delete record', function() {
     it('for an id', async function() {
         let result = await deleteService.removeItem(1);
-        let expected = '{"key":"1","value":{"id":"1","ttl":0,"name":"Updated New Coffee Shop","address":"986 Market St","latitude":"37.782394430549445","longitude":"-122.40997343121123"}}';
-        assert.equal(expected, JSON.stringify(result[0]));
+        let expected = '{"id":"1","name":"Updated New Coffee Shop","address":"986 Market St","latitude":"37.782394430549445","longitude":"-122.40997343121123"}';
+        assert.equal(expected, JSON.stringify(result));
     });
 });
 
@@ -48,8 +48,8 @@ describe('delete record', function() {
 describe('read record failure', function() {
     it('when no id exists', async function() {
         let result = await readService.readData(1);
-        let expected = '{"key":"1","value":{"id":"1","ttl":0,"name":"Updated New Coffee Shop","address":"986 Market St","latitude":"37.782394430549445","longitude":"-122.40997343121123"}}';
-        assert.equal(expected, JSON.stringify(result[0]));
+        let expected = 'No record found for id 1';
+        assert.equal(expected, result.errorMsg);
     });
 });
 
@@ -58,16 +58,16 @@ describe('update record failure', function() {
     it('from an object', async function() {
         let object = {"name": "Updated New Coffee Shop", "address":"986 Market St","latitude":"37.782394430549445", "longitude": "-122.40997343121123"};
         let result = await updateService.updateItem(1, object);
-        let expected = '';
-        assert.equal(expected, JSON.stringify(result[0]));
+        let expected = 'Cannot update record for id 1';
+        assert.equal(expected, result.errorMsg);
     });
 });
 
 
 describe('delete record failure', function() {
     it('for an id', async function() {
-        let result = await updateService.updateItem(1, object);
-        let expected = '{"key":"1","value":{"id":"1","ttl":0,"name":"Updated New Coffee Shop","address":"986 Market St","latitude":"37.782394430549445","longitude":"-122.40997343121123"}}';
-        assert.equal(expected, JSON.stringify(result[0]));
+        let result = await deleteService.removeItem(1);
+        let expected = 'Cannot delete record with id 1';
+        assert.equal(expected, result.errorMsg);
     });
 });
