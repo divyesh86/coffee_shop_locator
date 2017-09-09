@@ -21,7 +21,7 @@ First Initialize (To load the data from locations.csv to memory)
 1) curl http://localhost:3001/api/init
 
 
-# Commands to test
+## Commands to test
 1) Insert a new coffee shop
 curl -H "Content-Type: application/json" -X POST -d  '{"name": "New Coffee Shop", "address":"990 Market St","latitude":"37.782394430549445", "longitude": "-122.40997343121123"}' http://localhost:3001/api/create
 
