@@ -39,7 +39,7 @@ router.post('/update/:id', async function (req, res) {
 });
 
 
-router.delete('/:id', async function (req, res) {
+router.post('/delete/:id', async function (req, res) {
     let id = req.params.id;
     let result = await deleteService.removeItem(id);
     res.json(result);
